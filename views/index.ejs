@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collapsible Sidebar Menu</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css"> <!-- External CSS -->
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar row">
+        <div class="col-8">
+            <span class="menu-btn">&#9776; Menu</span>
+        </div>
+        <div class="col-4">
+            <div class="row">
+                <div class="col">
+                    <input type="file" class="form-control" id="jsonFileInput" accept=".json">
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" onclick="loadJSON()">Load JSON</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <!-- Close Button inside Sidebar -->
+        <button class="close-btn">×</button>
+        <!-- Sidebar -->
+        <div class="bg-dark text-white p-3" style="width: 250px; height: 100vh;">
+            <ul class="nav flex-column">
+                <!-- File Name Level -->
+                <li class="nav-item">
+                    <!-- <a class="nav-link text-white" data-bs-toggle="collapse" href="#fileNames">File Name</a> -->
+                    <ul class="nav flex-column">
+                        <% for (let category in sidebarData) { %>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" data-bs-toggle="collapse" href="#<%= category.replace(/\s/g, '') %>">
+                                <%= category %>
+                            </a>
+                            <ul class="collapse list-unstyled ps-3" id="<%= category.replace(/\s/g, '') %>">
+                                <% sidebarData[category].forEach(item => { %>
+                                <li class="form-check ps-4">
+                                    <input class="form-check-input" type="checkbox" id="<%= item.replace(/\s/g, '') %>">
+                                    <label class="form-check-label text-white" for="<%= item.replace(/\s/g, '') %>">
+                                        <%= item %>
+                                    </label>
+                                </li>
+                                <% }); %>
+                            </ul>
+                        </li>
+                        <% } %>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </div>
+
+    <!-- Overlay (Click outside to close) -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Main Content -->
+    <div id="myDiagramDiv" style="width: auto; height: 1000px; border: 1px solid black;"></div>
+
+    <!-- External JavaScript -->
+    <script src="/script.js"></script>
+    <script src="https://unpkg.com/gojs/release/go.js"></script>
+    <script src="/myDiagramDiv.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
